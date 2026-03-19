@@ -80,11 +80,9 @@ export default function LoginPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-1">
-        <p className="text-xs font-semibold uppercase tracking-wide text-sky-700">
-          
-        </p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-sky-700"></p>
         <h1 className="text-xl font-semibold tracking-tight text-slate-900">
-          Welcome back to MediLink
+          Welcome back to TrustMed
         </h1>
         <p className="text-sm text-slate-600">
           Sign in to securely access your digital medical records.
@@ -136,11 +134,7 @@ export default function LoginPage() {
             </p>
           ) : null}
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Signing in..." : "Sign in"}
           </Button>
         </form>
@@ -163,4 +157,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

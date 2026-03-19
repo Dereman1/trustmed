@@ -5,7 +5,11 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { forgotPasswordSchema, type ForgotPasswordFormValues, forgotPassword } from "@/lib/auth";
+import {
+  forgotPasswordSchema,
+  type ForgotPasswordFormValues,
+  forgotPassword,
+} from "@/lib/auth";
 import { extractApiErrorMessage } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +29,7 @@ export default function ForgotPasswordPage() {
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
-      redirectTo : "https://MediLinkx.vercel.app/reset-password"
+      redirectTo: "https://TrustMedx.vercel.app/reset-password",
     },
   });
 
@@ -52,7 +56,8 @@ export default function ForgotPasswordPage() {
             Check your email
           </h1>
           <p className="text-sm text-slate-600">
-            If an account exists for {form.getValues("email")}, we've sent instructions to reset your password.
+            If an account exists for {form.getValues("email")}, we've sent
+            instructions to reset your password.
           </p>
         </div>
         <Link href="/login">
@@ -69,7 +74,8 @@ export default function ForgotPasswordPage() {
           Forgot password?
         </h1>
         <p className="text-sm text-slate-600">
-          Enter your email address and we'll send you a link to reset your password.
+          Enter your email address and we'll send you a link to reset your
+          password.
         </p>
       </div>
 
@@ -100,11 +106,7 @@ export default function ForgotPasswordPage() {
             </p>
           ) : null}
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Sending link..." : "Send reset link"}
           </Button>
         </form>

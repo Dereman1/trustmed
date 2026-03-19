@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter, Outfit } from "next/font/google";
+import { Geist_Mono, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import { HydrationGuard } from "@/components/HydrationGuard";
 import { AuthApiSync } from "@/components/AuthApiSync";
 
-// Modern heading font - Outfit
-const headingFont = Outfit({ 
+// Modern heading font - Poppins (friendly, geometric)
+const headingFont = Poppins({ 
   subsets: ['latin'], 
   variable: '--font-heading',
   weight: ['400', '500', '600', '700']
 });
 
-// Body font - Inter
+// Body font - Inter (keep for readability)
 const bodyFont = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -26,8 +26,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MediLink - Portable Patient Medical Record Platform",
-  description: "MediLink enables patients to securely store, manage, and share their medical records with authorized healthcare providers anytime, anywhere.",
+  title: "TrustMed - Patient-Controlled Digital Health Record Platform",
+  description: "TrustMed enables patients to securely store and share their medical records with authorized healthcare providers.",
 };
 
 export default function RootLayout({

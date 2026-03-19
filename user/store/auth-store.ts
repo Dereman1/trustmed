@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthStore>()(
       setHydrated: () => set({ isHydrated: true }),
     }),
     {
-      name: "MediLink-auth",
+      name: "TrustMed-auth",
       onRehydrateStorage: () => (state) => {
         state?.setHydrated();
       },
@@ -52,4 +52,3 @@ export const useAuthStore = create<AuthStore>()(
     },
   ),
 );
-

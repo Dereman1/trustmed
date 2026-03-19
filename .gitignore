@@ -1,8 +1,6 @@
 /backend/.env
-/backend/src/app.ts
+
 /admin/.env
-/admin/lib/api.ts
-/user/lib/api.ts
 /backend/node_modules/
 /admin/node_modules/    
 /user/node_modules/

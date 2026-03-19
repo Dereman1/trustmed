@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
     try {
       form.clearErrors();
       const { data } = await loginUser(values);
-      
+
       const role = getRoleFromUser(data.user);
 
       if (role !== "admin") {
@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
           <Shield className="h-6 w-6 text-primary" />
         </div>
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          MediLink Admin
+          TrustMed Admin
         </h1>
         <p className="text-sm text-muted-foreground">
           Sign in to access the admin dashboard
@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
                   <Input
                     type="email"
                     autoComplete="email"
-                    placeholder="admin@MediLink.com"
+                    placeholder="admin@TrustMed.com"
                     {...field}
                   />
                 </FormControl>
@@ -126,11 +126,7 @@ export default function AdminLoginPage() {
             </p>
           ) : null}
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Signing in..." : "Sign in to Admin"}
           </Button>
         </form>

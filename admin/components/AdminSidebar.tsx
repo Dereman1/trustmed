@@ -6,11 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { logoutUser } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   Menu,
   X,
@@ -101,7 +97,7 @@ export function AdminSidebar() {
             <Shield className="h-4 w-4 text-primary" />
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-foreground">MediLink</h1>
+            <h1 className="text-lg font-semibold text-foreground">TrustMed</h1>
             <p className="text-xs text-muted-foreground">Admin Panel</p>
           </div>
         </div>

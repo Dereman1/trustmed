@@ -138,7 +138,7 @@ export function Sidebar() {
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="border-b border-border p-4">
-        <h1 className="text-lg font-semibold text-foreground">MediLink</h1>
+        <h1 className="text-lg font-semibold text-foreground">TrustMed</h1>
         <p className="text-xs text-muted-foreground">
           {user?.role === "patient" ? "Patient Portal" : "Provider Portal"}
         </p>

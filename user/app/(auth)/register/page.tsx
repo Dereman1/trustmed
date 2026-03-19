@@ -71,7 +71,7 @@ export default function RegisterPage() {
     <div className="space-y-6">
       <div className="space-y-1">
         <p className="text-xs font-semibold uppercase tracking-wide text-sky-700">
-          Join MediLink
+          Join TrustMed
         </p>
         <h1 className="text-xl font-semibold tracking-tight text-slate-900">
           Create your account
