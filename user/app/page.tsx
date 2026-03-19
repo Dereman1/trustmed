@@ -7,17 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   ArrowRight,
-  BadgeCheck,
-  ClipboardCheck,
-  FileText,
-  Lock,
+  Building2,
+  FileCheck,
+  FileSearch,
   LogIn,
-  FileBadge,
   LogOut,
   LayoutDashboard,
-  Shield,
-  Sparkles,
+  Lock,
+  ShieldCheck,
   Stethoscope,
+  UserPlus,
   Users,
 } from "lucide-react";
 
@@ -34,6 +33,13 @@ type Feature = {
 type Step = {
   title: string;
   description: string;
+};
+
+type Benefit = {
+  audience: string;
+  title: string;
+  items: string[];
+  icon: React.ReactNode;
 };
 
 export default function Home() {
@@ -74,59 +80,67 @@ export default function Home() {
 
   const features: Feature[] = [
     {
-      title: "Unified patient record",
-      description:
-        "Keep visits, labs, imaging, prescriptions, and notes organized in one secure timeline.",
-      icon: <FileText className="h-5 w-5" strokeWidth={1.6} />,
+      title: "Patient-controlled records",
+      description: "You own your data. Store visits, labs, imaging, and prescriptions in one place and decide who can access it.",
+      icon: <FileCheck className="h-6 w-6" strokeWidth={1.8} />,
     },
     {
-      title: "Privacy-first security",
-      description:
-        "Role-based access, secure sessions, and audit-friendly workflows designed for trust.",
-      icon: <Lock className="h-5 w-5" strokeWidth={1.6} />,
+      title: "Secure sharing",
+      description: "Grant and revoke access to providers when you need to. Role-based permissions and audit trails keep everything transparent.",
+      icon: <Lock className="h-6 w-6" strokeWidth={1.8} />,
     },
     {
-      title: "Share with the right team",
-      description:
-        "Grant and revoke access when you need to—patients stay in control of their data.",
-      icon: <Users className="h-5 w-5" strokeWidth={1.6} />,
+      title: "Provider access",
+      description: "Authorized clinicians see the full picture—reducing duplicate tests, delays, and paperwork at the point of care.",
+      icon: <Stethoscope className="h-6 w-6" strokeWidth={1.8} />,
     },
     {
-      title: "Provider-ready workflows",
-      description:
-        "Fast review, better context, fewer repeats—supporting better decisions at the point of care.",
-      icon: <Stethoscope className="h-5 w-5" strokeWidth={1.6} />,
-    },
-    {
-      title: "Integrity and compliance posture",
-      description:
-        "Designed to support strong governance with consistent metadata and access boundaries.",
-      icon: <Shield className="h-5 w-5" strokeWidth={1.6} />,
-    },
-    {
-      title: "Accessible everywhere",
-      description:
-        "A responsive experience that works across mobile, tablet, and desktop—without friction.",
-      icon: <Sparkles className="h-5 w-5" strokeWidth={1.6} />,
+      title: "Audit logs",
+      description: "Every access event is logged. Support compliance and accountability with clear, traceable activity records.",
+      icon: <FileSearch className="h-6 w-6" strokeWidth={1.8} />,
     },
   ];
 
   const steps: Step[] = [
+    { title: "Sign up", description: "Create your account as a patient or sign in as a provider or facility." },
+    { title: "Add your records", description: "Upload and organize your medical history in a structured timeline." },
+    { title: "Share with care team", description: "Grant access to specific providers; revoke anytime." },
+    { title: "Better care", description: "Providers use your records to deliver faster, more informed care." },
+  ];
+
+  const benefits: Benefit[] = [
     {
-      title: "Create your account",
-      description: "Sign up as a patient (free) or sign in as a healthcare provider.",
+      audience: "Patients",
+      title: "Your data, your control",
+      icon: <Users className="h-8 w-8" strokeWidth={1.6} />,
+      items: [
+        "One place for all your health records",
+        "Decide who sees what and when",
+        "Reduce repeat tests and forms",
+        "Access from any device",
+      ],
     },
     {
-      title: "Store & organize records",
-      description: "Upload and keep history structured so it’s easy to find when it matters.",
+      audience: "Providers",
+      title: "Full context, less friction",
+      icon: <Stethoscope className="h-8 w-8" strokeWidth={1.6} />,
+      items: [
+        "View patient history with consent",
+        "Fewer duplicate orders and delays",
+        "Structured, easy-to-scan records",
+        "Audit-ready access logs",
+      ],
     },
     {
-      title: "Control access",
-      description: "Share with specific providers and revoke access at any time.",
-    },
-    {
-      title: "Deliver better care",
-      description: "Providers view complete context to reduce delays and duplicate tests.",
+      audience: "Facilities",
+      title: "Governance and compliance",
+      icon: <Building2 className="h-8 w-8" strokeWidth={1.6} />,
+      items: [
+        "Centralized access policies",
+        "Traceable sharing and access",
+        "Support for local regulations",
+        "Scalable for the Ethiopian pilot",
+      ],
     },
   ];
 
@@ -138,7 +152,7 @@ export default function Home() {
         onLogout={handleLogout}
       />
 
-      <main className="pt-16">
+      <main className="pt-[72px]">
         <HeroSection
           userPresent={Boolean(user)}
           onPatientSignup={() => router.push("/register?role=patient")}
@@ -149,7 +163,9 @@ export default function Home() {
 
         <FeaturesSection features={features} />
 
-        <WorkflowSection steps={steps} />
+        <HowItWorksSection steps={steps} />
+
+        <BenefitsSection benefits={benefits} />
 
         <CtaSection
           onGetStarted={() => router.push("/register")}
@@ -162,21 +178,18 @@ export default function Home() {
   );
 }
 
+// ─── Header: solid teal bar, coral accent CTA ─────────────────────────────
+
 function BrandMark() {
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 ring-1 ring-primary/10">
-        <FileBadge className="h-5 w-5 text-primary" strokeWidth={1.6} />
+    <div className="flex items-center gap-2.5">
+      <div
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15"
+        aria-hidden
+      >
+        <ShieldCheck className="h-5 w-5 text-white" strokeWidth={1.8} />
       </div>
-      <div className="leading-none">
-        <div className="flex items-baseline gap-1">
-          <span className="text-lg font-semibold tracking-tight">Record</span>
-          <span className="text-lg font-semibold tracking-tight text-primary italic">
-            X
-          </span>
-        </div>
-        <div className="text-xs text-muted-foreground">Patient record system</div>
-      </div>
+      <span className="text-lg font-bold tracking-tight text-white">TrustMed</span>
     </div>
   );
 }
@@ -191,52 +204,68 @@ function SiteHeader({
   onLogout: () => void;
 }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
-        <Link href="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg">
+    <header
+      id="security"
+      className="fixed inset-x-0 top-0 z-50 bg-primary shadow-md"
+    >
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-md"
+        >
           <BrandMark />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-          <a className="hover:text-foreground transition-colors" href="#features">
-            Features
-          </a>
-          <a className="hover:text-foreground transition-colors" href="#workflow">
-            Workflow
-          </a>
-          <a className="hover:text-foreground transition-colors" href="#security">
-            Security
-          </a>
+        <nav className="hidden items-center gap-7 text-sm font-medium text-white/90 md:flex" aria-label="Main">
+          <a className="transition hover:text-white" href="#features">Features</a>
+          <a className="transition hover:text-white" href="#workflow">How it works</a>
+          <a className="transition hover:text-white" href="#benefits">Benefits</a>
         </nav>
 
         <div className="flex items-center gap-2">
           {userPresent ? (
             <>
-              {dashboardHref ? (
+              {dashboardHref && (
                 <Link href={dashboardHref}>
-                  <Button variant="outline" className="gap-2">
+                  <Button
+                    size="sm"
+                    className="gap-1.5 border-white/30 bg-white/10 text-white hover:bg-white/20 sm:gap-2"
+                    variant="outline"
+                  >
                     <LayoutDashboard className="h-4 w-4" />
-                    Dashboard
+                    <span className="hidden sm:inline">Dashboard</span>
                   </Button>
                 </Link>
-              ) : null}
-              <Button variant="destructive" className="gap-2" onClick={onLogout}>
+              )}
+              <Button
+                size="sm"
+                variant="destructive"
+                className="gap-1.5 sm:gap-2"
+                onClick={onLogout}
+              >
                 <LogOut className="h-4 w-4" />
-                Logout
+                <span className="hidden sm:inline">Logout</span>
               </Button>
             </>
           ) : (
             <>
               <Link href="/login">
-                <Button variant="outline" className="gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-1.5 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white sm:gap-2"
+                >
                   <LogIn className="h-4 w-4" />
-                  Login
+                  <span className="hidden sm:inline">Provider Login</span>
                 </Button>
               </Link>
               <Link href="/register">
-                <Button className="gap-2">
-                  Get started
-                  <ArrowRight className="h-4 w-4" />
+                <Button
+                  size="sm"
+                  className="gap-1.5 bg-[var(--trustmed-accent)] text-white hover:opacity-90 sm:gap-2"
+                >
+                  <UserPlus className="h-4 w-4" />
+                  <span className="hidden sm:inline">Patient Sign Up</span>
                 </Button>
               </Link>
             </>
@@ -246,6 +275,8 @@ function SiteHeader({
     </header>
   );
 }
+
+// ─── Hero: split layout, left copy + right visual ─────────────────────────
 
 function HeroSection({
   userPresent,
@@ -261,109 +292,80 @@ function HeroSection({
   onGoDashboard: () => void;
 }) {
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute -top-28 left-1/2 h-[520px] w-[880px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute bottom-[-180px] right-[-160px] h-[420px] w-[420px] rounded-full bg-[oklch(0.9_0.05_160)] blur-3xl" />
-      </div>
-
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-14 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-10 lg:pb-20 lg:pt-18">
-        <div className="space-y-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 text-xs text-muted-foreground shadow-sm">
-            <BadgeCheck className="h-4 w-4 text-primary" />
-            Built for secure patient records and smooth provider access
-          </div>
-
-          <div className="space-y-4">
-            <h1 className="text-pretty text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Modern patient records,{" "}
-              <span className="text-primary">securely shared</span> when it matters.
-            </h1>
-            <p className="max-w-xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-              RecordX helps patients store and manage their medical history, and helps
-              providers access the right context—fast, responsibly, and with clear control.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+    <section className="relative border-b-4 border-[var(--trustmed-accent)] bg-primary">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8 lg:py-20">
+        <div className="max-w-xl">
+          <p className="text-sm font-semibold uppercase tracking-widest text-white/80">
+            Ethiopian healthcare pilot
+          </p>
+          <h1 className="mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-[2.75rem]">
+            Your health records.
+            <br />
+            <span className="text-[var(--trustmed-accent)]">You control who sees them.</span>
+          </h1>
+          <p className="mt-6 text-lg leading-relaxed text-white/90">
+            TrustMed is a patient-controlled digital health record platform. Store your medical history, share it securely with providers, and support better care—with full transparency and consent.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
             {userPresent ? (
               <>
-                <Button size="lg" className="h-12 px-6" onClick={onGoDashboard}>
+                <Button
+                  size="lg"
+                  className="h-12 bg-[var(--trustmed-accent)] px-6 text-white hover:opacity-90"
+                  onClick={onGoDashboard}
+                >
                   Go to dashboard
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button size="lg" variant="outline" className="h-12 px-6" onClick={onSignin}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-12 border-white/40 bg-transparent px-6 text-white hover:bg-white/10"
+                  onClick={onSignin}
+                >
                   Sign in
                 </Button>
               </>
             ) : (
               <>
-                <Button size="lg" className="h-12 px-6" onClick={onPatientSignup}>
-                  Patient sign up (free)
-                  <ArrowRight className="h-4 w-4" />
+                <Button
+                  size="lg"
+                  className="h-12 bg-[var(--trustmed-accent)] px-6 text-white hover:opacity-90"
+                  onClick={onPatientSignup}
+                >
+                  Patient Sign Up
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button size="lg" variant="outline" className="h-12 px-6" onClick={onProviderSignin}>
-                  Healthcare provider sign in
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-12 border-white/40 bg-transparent px-6 text-white hover:bg-white/10"
+                  onClick={onProviderSignin}
+                >
+                  Provider Login
                 </Button>
               </>
             )}
           </div>
-
-          <div id="security" className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
-            <TrustPill icon={<Shield className="h-4 w-4" strokeWidth={1.6} />} title="Security first" text="Access boundaries & responsible sharing" />
-            <TrustPill icon={<ClipboardCheck className="h-4 w-4" strokeWidth={1.6} />} title="Clear workflow" text="Organized history for fast review" />
-            <TrustPill icon={<BadgeCheck className="h-4 w-4" strokeWidth={1.6} />} title="Built for trust" text="Consistent records and audit-friendly patterns" />
-          </div>
         </div>
 
-        <div className="relative">
-          <Card className="overflow-hidden border-border/60 bg-card/60 shadow-sm">
-            <div className="border-b border-border/60 bg-background/60 px-5 py-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm font-medium">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/10">
-                    <Shield className="h-4 w-4 text-primary" strokeWidth={1.6} />
-                  </div>
-                  Patient summary
+        <div className="relative flex justify-center lg:justify-end">
+          <Card className="w-full max-w-md overflow-hidden border-0 bg-white/95 shadow-xl">
+            <div className="border-b border-border/60 bg-muted/30 px-5 py-4">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                  <FileCheck className="h-4 w-4 text-primary" strokeWidth={1.8} />
                 </div>
-                <div className="text-xs text-muted-foreground">Last updated: Today</div>
+                <span className="text-sm font-semibold text-foreground">Your record summary</span>
               </div>
             </div>
-
-            <div className="space-y-5 p-5 sm:p-6">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <MetricCard label="Records indexed" value="1,248" />
-                <MetricCard label="Access grants" value="12" />
-                <MetricCard label="Recent visits" value="8" />
-                <MetricCard label="Labs & imaging" value="36" />
-              </div>
-
-              <div className="rounded-2xl border border-border/60 bg-background/60 p-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[oklch(0.9_0.05_160)] ring-1 ring-[oklch(0.9_0.05_160)]/60">
-                    <Stethoscope className="h-5 w-5 text-[oklch(0.28_0.05_160)]" strokeWidth={1.6} />
+            <div className="space-y-3 p-5">
+                {["Visits & history", "Labs & imaging", "Prescriptions", "Shared with providers"].map((label, i) => (
+                  <div key={label} className="flex items-center justify-between rounded-lg bg-muted/30 px-4 py-3">
+                    <span className="text-sm font-medium text-foreground">{label}</span>
+                    <span className="text-xs text-muted-foreground">You control access</span>
                   </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="truncate text-sm font-medium">Share with your provider</p>
-                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
-                        Controlled
-                      </span>
-                    </div>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Grant access for a visit, then revoke automatically after the care episode.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between rounded-2xl border border-border/60 bg-background/60 px-4 py-3">
-                <div className="flex items-center gap-2 text-sm font-medium">
-                  <Sparkles className="h-4 w-4 text-primary" strokeWidth={1.6} />
-                  Ready for mobile, tablet, and desktop
-                </div>
-                <span className="text-xs text-muted-foreground">Responsive UI</span>
-              </div>
+                ))}
             </div>
           </Card>
         </div>
@@ -372,65 +374,41 @@ function HeroSection({
   );
 }
 
-function TrustPill({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-border/60 bg-background/60 p-4 shadow-sm">
-      <div className="flex items-center gap-2 text-sm font-medium">
-        <span className="text-primary">{icon}</span>
-        {title}
-      </div>
-      <p className="mt-1 text-sm text-muted-foreground">{text}</p>
-    </div>
-  );
-}
-
-function MetricCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-border/60 bg-background/60 p-4">
-      <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="mt-2 text-2xl font-semibold tracking-tight">{value}</div>
-    </div>
-  );
-}
+// ─── Features: bento-style grid, teal + coral accents ─────────────────────
 
 function FeaturesSection({ features }: { features: Feature[] }) {
   return (
-    <section id="features" className="border-t border-border/60 bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-10">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-medium text-primary">Features</p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-            Everything you need to manage records responsibly
+    <section id="features" className="bg-background py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[var(--trustmed-accent)]">
+            Features
+          </p>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Built for trust and control
           </h2>
-          <p className="mt-4 text-pretty text-base text-muted-foreground sm:text-lg">
-            A clean experience for patients and providers, built for clarity, security, and
-            accessibility.
+          <p className="mt-4 text-lg text-muted-foreground">
+            Patient-controlled records, secure sharing, provider access, and audit logs—all in one platform for the Ethiopian healthcare pilot.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {features.map((feature) => (
             <Card
               key={feature.title}
-              className="group border-border/60 bg-card/60 p-6 shadow-sm transition hover:-translate-y-0.5 hover:bg-card"
+              className="group relative overflow-hidden border-l-4 border-l-[var(--trustmed-accent)] bg-card p-6 shadow-sm transition hover:shadow-md"
             >
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/10">
+              <div className="flex gap-5">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   {feature.icon}
                 </div>
-                <h3 className="text-base font-semibold">{feature.title}</h3>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {feature.description}
-              </p>
             </Card>
           ))}
         </div>
@@ -439,36 +417,37 @@ function FeaturesSection({ features }: { features: Feature[] }) {
   );
 }
 
-function WorkflowSection({ steps }: { steps: Step[] }) {
-  return (
-    <section id="workflow" className="border-t border-border/60 bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-10">
-        <div className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="space-y-4">
-            <p className="text-sm font-medium text-primary">Benefits & workflow</p>
-            <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-              A workflow that respects time and privacy
-            </h2>
-            <p className="text-pretty text-base text-muted-foreground sm:text-lg">
-              Patients stay in control. Providers get the context they need, without endless
-              back-and-forth. The result is a simpler, more trustworthy experience.
-            </p>
-          </div>
+// ─── How it works: horizontal timeline ───────────────────────────────────
 
-          <ol className="space-y-3">
+function HowItWorksSection({ steps }: { steps: Step[] }) {
+  return (
+    <section id="workflow" className="border-t border-border bg-muted/20 py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+            How it works
+          </p>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Simple workflow, clear steps
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
+            From sign-up to better care—see how TrustMed connects you and your providers.
+          </p>
+        </div>
+
+        <div className="mt-14">
+          <ol className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6" aria-label="Platform workflow">
             {steps.map((step, index) => (
-              <li
-                key={step.title}
-                className="flex gap-4 rounded-2xl border border-border/60 bg-muted/20 p-5"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-semibold text-primary ring-1 ring-primary/10">
+              <li key={step.title} className="flex flex-col items-center text-center lg:items-start lg:text-left">
+                <span
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-primary bg-primary text-lg font-bold text-primary-foreground"
+                  aria-hidden
+                >
                   {index + 1}
-                </div>
-                <div>
-                  <div className="text-sm font-semibold">{step.title}</div>
-                  <div className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    {step.description}
-                  </div>
+                </span>
+                <div className="mt-4">
+                  <h3 className="font-semibold text-foreground">{step.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>
                 </div>
               </li>
             ))}
@@ -479,6 +458,55 @@ function WorkflowSection({ steps }: { steps: Step[] }) {
   );
 }
 
+// ─── Benefits: three columns (Patients, Providers, Facilities) ───────────
+
+function BenefitsSection({ benefits }: { benefits: Benefit[] }) {
+  return (
+    <section id="benefits" className="bg-background py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[var(--trustmed-accent)]">
+            Benefits
+          </p>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Value for everyone in the care journey
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            Patients keep control. Providers get context. Facilities gain governance—all on one platform.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
+          {benefits.map((benefit) => (
+            <Card
+              key={benefit.audience}
+              className="flex flex-col border-t-4 border-t-primary bg-card p-6 shadow-sm"
+            >
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                {benefit.icon}
+              </div>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-primary">
+                {benefit.audience}
+              </p>
+              <h3 className="mt-1 text-xl font-semibold text-foreground">{benefit.title}</h3>
+              <ul className="mt-4 flex-1 space-y-2 text-sm text-muted-foreground">
+                {benefit.items.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--trustmed-accent)]" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CTA: full-width teal band, coral button ─────────────────────────────
+
 function CtaSection({
   onGetStarted,
   onSignIn,
@@ -487,113 +515,61 @@ function CtaSection({
   onSignIn: () => void;
 }) {
   return (
-    <section className="border-t border-border/60 bg-gradient-to-b from-background to-muted/40">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-10">
-        <div className="mx-auto max-w-4xl rounded-3xl border border-border/60 bg-background/70 p-8 shadow-sm sm:p-10">
-          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary ring-1 ring-primary/10">
-                <BadgeCheck className="h-4 w-4" />
-                Get started in minutes
-              </div>
-              <h2 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
-                Bring your records together with RecordX
-              </h2>
-              <p className="text-pretty text-sm text-muted-foreground sm:text-base">
-                Create an account to start organizing your health history and sharing it with the
-                right care team—securely.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button size="lg" className="h-12 px-6" onClick={onGetStarted}>
-                Create account
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-              <Button size="lg" variant="outline" className="h-12 px-6" onClick={onSignIn}>
-                Sign in
-              </Button>
-            </div>
-          </div>
+    <section className="bg-primary py-16 sm:py-20">
+      <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          Ready to take control of your health records?
+        </h2>
+        <p className="mt-4 text-lg text-white/90">
+          Join TrustMed—the patient-controlled digital health record platform for the Ethiopian healthcare pilot.
+        </p>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Button
+            size="lg"
+            className="h-12 bg-[var(--trustmed-accent)] px-8 text-white hover:opacity-90"
+            onClick={onGetStarted}
+          >
+            Create account
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            className="h-12 border-white/40 bg-transparent px-8 text-white hover:bg-white/10"
+            onClick={onSignIn}
+          >
+            Sign in
+          </Button>
         </div>
       </div>
     </section>
   );
 }
 
+// ─── Footer: dark teal, compact ──────────────────────────────────────────
+
 function SiteFooter() {
   return (
-    <footer className="border-t border-border/60 bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
-          <div className="space-y-4">
-            <BrandMark />
-            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              A trustworthy patient record platform designed for clarity, privacy, and access
-              control.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-8 md:col-span-2 md:grid-cols-3">
-            <FooterCol
-              title="Product"
-              links={[
-                { label: "Features", href: "#features" },
-                { label: "Workflow", href: "#workflow" },
-                { label: "Security", href: "#security" },
-              ]}
-            />
-            <FooterCol
-              title="Account"
-              links={[
-                { label: "Login", href: "/login" },
-                { label: "Register", href: "/register" },
-              ]}
-            />
-            <FooterCol
-              title="Legal"
-              links={[
-                { label: "Privacy policy", href: "#privacy" },
-                { label: "Terms", href: "#terms" },
-              ]}
-            />
-          </div>
-        </div>
-
-        <div className="mt-10 flex flex-col gap-3 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} RecordX. All rights reserved.</p>
+    <footer className="bg-primary py-10 sm:py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-primary" strokeWidth={1.6} />
-            <span>Designed for secure healthcare experiences.</span>
+            <ShieldCheck className="h-6 w-6 text-white/80" aria-hidden />
+            <span className="font-semibold text-white">TrustMed</span>
           </div>
+          <nav className="flex flex-wrap gap-6 text-sm text-white/80" aria-label="Footer">
+            <Link href="#features" className="transition hover:text-white">Features</Link>
+            <Link href="#workflow" className="transition hover:text-white">How it works</Link>
+            <Link href="#benefits" className="transition hover:text-white">Benefits</Link>
+            <Link href="#security" className="transition hover:text-white">Security</Link>
+            <Link href="/login" className="transition hover:text-white">Login</Link>
+            <Link href="/register" className="transition hover:text-white">Register</Link>
+          </nav>
+        </div>
+        <div className="mt-8 border-t border-white/20 pt-6 text-center text-sm text-white/70 sm:text-left">
+          <p>© {new Date().getFullYear()} TrustMed. Patient-controlled digital health records for the Ethiopian healthcare pilot.</p>
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterCol({
-  title,
-  links,
-}: {
-  title: string;
-  links: Array<{ label: string; href: string }>;
-}) {
-  return (
-    <div className="space-y-3">
-      <div className="text-sm font-semibold">{title}</div>
-      <ul className="space-y-2 text-sm">
-        {links.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.href}
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
